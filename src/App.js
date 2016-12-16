@@ -10,7 +10,6 @@ class App extends Component {
         <table>
         <Motion defaultStyle={{scale: 0}} style={{scale: spring(1, presets.gentle)}}>
           {value => {
-            console.log(value)
             return (
               <tbody>
                 {arr.map((row, i) => {

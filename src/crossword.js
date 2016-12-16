@@ -32,7 +32,6 @@ export class Board {
         const board = new Board()
         const sorted_words = _.orderBy(words, (w) => w.length, 'desc')
         sorted_words.forEach((word) => board.add_word(word))
-        console.log(sorted_words)
         return board
     }
 
@@ -40,64 +39,65 @@ export class Board {
         this.words = []
     }
 
-    toObject () {
-      return this.words
+    toObject() {
+        return this.words
     }
 
-    normalizeCoordinates () {
-      // Find min and max, x and y
-      let offsetX = Math.min(...this.words.map(w => w.posX))
-      let offsetY = Math.min(...this.words.map(w => w.posY))
+    normalizeCoordinates() {
+        // Find min and max, x and y
+        let offsetX = Math.min(...this.words.map(w => w.posX))
+        let offsetY = Math.min(...this.words.map(w => w.posY))
 
-      this.words.forEach((word) => {
-        word.posX -= offsetX
-        word.posY -= offsetY
-      })
-    }
-
-    size () {
-      return {
-        x: Math.max(...this.words.map(w => w.direction === 'H' ? w.posX + w.word.length - 1 : w.posX)) + 1,
-        y: Math.max(...this.words.map(w => w.direction === 'V' ? w.posY + w.word.length - 1 : w.posY)) + 1
-      }
-    }
-
-    toArray () {
-      let size = this.size()
-
-      // Create array
-      let arr = []
-      for (let i = 0; i < size.y; i++) {
-        arr[i] = []
-        for (let j = 0; j < size.x; j++) {
-          arr[i][j] = ""
-        }
-      }
-
-      this.words.forEach(w => {
-        w.word.split("").forEach((c, i) => {
-          if (w.direction === 'H') {
-            arr[w.posY][w.posX + i] = c
-          }
-          if (w.direction === 'V') {
-            arr[w.posY + i][w.posX] = c
-          }
+        this.words.forEach((word) => {
+            word.posX -= offsetX
+            word.posY -= offsetY
         })
-      })
-      return arr
+    }
+
+    size() {
+        return {
+            x: Math.max(...this.words.map(w => w.direction === 'H' ? w.posX + w.word.length - 1 : w.posX)) + 1,
+            y: Math.max(...this.words.map(w => w.direction === 'V' ? w.posY + w.word.length - 1 : w.posY)) + 1
+        }
+    }
+
+    toArray() {
+        let size = this.size()
+
+        // Create array
+        let arr = []
+        for (let i = 0; i < size.y; i++) {
+            arr[i] = []
+            for (let j = 0; j < size.x; j++) {
+                arr[i][j] = ""
+            }
+        }
+
+        this.words.forEach(w => {
+            w.word.split("").forEach((c, i) => {
+                if (w.direction === 'H') {
+                    arr[w.posY][w.posX + i] = c
+                }
+                if (w.direction === 'V') {
+                    arr[w.posY + i][w.posX] = c
+                }
+            })
+        })
+        return arr
     }
 
     is_cell_occupied(x, y) {
         for (let i = 0; i < this.words.length; i++) {
             let w = this.words[i]
-            if (w.direction === 'V')
+            if (w.direction === 'V') {
                 if (w.posX === x && y >= w.posY && y < w.posY + w.word.length) {
                     return true
-                } else {
-                    if (w.posY === y && x >= w.posX && x < w.posX + w.word.length) {
-                        return true
-                    }
                 }
+            } else {
+                if (w.posY === y && x >= w.posX && x < w.posX + w.word.length) {
+                    return true
+                }
+            }
         }
         return false
     }
