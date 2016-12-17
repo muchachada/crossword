@@ -4,6 +4,4 @@ import App from './App';
 
 import { Board } from './crossword'
 
-const b = Board.from_words(['hola', 'chau', 'tabla', 'concentracion', 'televisor', 'radio', 'internet', 'barco', 'avion '])
-
-ReactDOM.render(<App arr={b.toArray()}/>, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
