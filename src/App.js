@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
+import { Button } from 'react-toolbox/lib/button'
 import { spring, Motion, presets } from 'react-motion';
-import './App.css';
 
-class App extends Component {
+// Import react-toolbox resets
+import 'react-toolbox/lib/commons.scss'
+
+import './index.css'
+
+export default class App extends Component {
   render() {
     const { arr } = this.props;
     return (
@@ -28,5 +33,3 @@ class App extends Component {
     );
   }
 }
-
-export default App;
