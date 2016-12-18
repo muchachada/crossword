@@ -69,7 +69,7 @@ export default class App extends Component {
         <div className={styles.content}>
           <div className={styles.controls}>
             <h4>Words</h4>
-            <Controls onChange={this.changeWords} words={this.state.words} onDelete={this.handleDelete} />
+            <Controls onChange={this.changeWords} words={this.state.words} onDelete={this.handleDelete} onLastBackspace={() => this.setState({words: this.state.words.slice(0, this.state.words.length - 1)})}/>
             <h4>Debug data</h4>
             <div>
               <div><strong>Size:</strong> {board.size.x} × {board.size.y}</div>

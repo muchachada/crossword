@@ -16,6 +16,10 @@ export default class EditableChip extends React.Component {
       e.preventDefault()
       this.props.onOK()
     }
+    if (e.key === 'Backspace' && this.props.value === '') {
+      e.preventDefault()
+      this.props.onLastBackspace()
+    }
   }
 
   handleChange (e) {

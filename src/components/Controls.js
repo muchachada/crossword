@@ -10,6 +10,7 @@ export default class Controls extends React.Component {
     super()
     this.addWord = this.addWord.bind(this)
     this.changeInput = this.changeInput.bind(this)
+    this.handleLastBackspace = this.handleLastBackspace.bind(this)
     this.state = {
       input: ''
     }
@@ -27,6 +28,11 @@ export default class Controls extends React.Component {
     this.setState({input: v})
   }
 
+  handleLastBackspace () {
+    this.setState({input: this.props.words.slice(-1)[0]})
+    this.props.onLastBackspace()
+  }
+
   render () {
     const { words, onDelete } = this.props
     return (
@@ -38,6 +44,7 @@ export default class Controls extends React.Component {
             value={this.state.input}
             onChange={this.changeInput}
             onOK={this.addWord}
+            onLastBackspace={this.handleLastBackspace}
           />
         </div>
       </div>
