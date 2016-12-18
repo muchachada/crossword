@@ -14,7 +14,7 @@ export default class App extends Component {
     this.changeWords = this.changeWords.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
     this.state = {
-      words: ['hola']
+      words: []
     }
   }
 
@@ -44,19 +44,17 @@ export default class App extends Component {
     const verticalRatio = boardInnerHeight / boardHeight
     const horizontalRatio = boardInnerWidth / boardWidth
     const biggestRatio = Math.max(verticalRatio, horizontalRatio)
-    console.log(biggestRatio)
     if (biggestRatio > 1) {
-        const scale = 1 / biggestRatio
+        const scale = 1 / biggestRatio - 0.1
         let translate = 0
         translate = Math.max(boardInnerHeight - boardHeight, 0)
-        console.log(translate)
         boardInner.style.transform = `scale(${scale}) translateY(-${translate}px)`
       }
     }
 
   render() {
     let board = Board.from_words(this.state.words)
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 10; i++) {
       let b = Board.from_words(this.state.words)
       if (b.score > board.score) {
         board = b

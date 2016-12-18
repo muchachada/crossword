@@ -24,6 +24,10 @@ export default class Controls extends React.Component {
     this.refs.editablechip.getFocus()
   }
 
+  componentDidMount () {
+    this.refs.editablechip.getFocus()
+  }
+
   changeInput (v) {
     this.setState({input: v})
   }
