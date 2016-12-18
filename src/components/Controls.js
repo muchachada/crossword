@@ -22,21 +22,19 @@ export default class Controls extends React.Component {
     onChange(_.concat(words, word))
   }
 
-  changeInput (v) {
-    console.log(v)
-    this.setState({input: v})
+  changeInput (e) {
+    this.setState({input: e.target.value})
   }
 
   render () {
     const { words, onDelete } = this.props
     return (
       <div>
-        <form onSubmit={this.addWord}>
-          <Input type='text' value={this.state.input} onChange={this.changeInput} />
-          <Button type='submit' onClick={this.addWord} label='Add' primary raised />
-        </form>
         <div>
           {words.map((w, i) => <Chip key={w} deletable onDeleteClick={() => onDelete(i)}>{w}</Chip>)}
+          <form onSubmit={this.addWord} style={{display: 'inline'}}>
+            <input type='text' style={{width: '3em'}} value={this.state.input} onChange={this.changeInput} ref='input' />
+          </form>
         </div>
       </div>
     )

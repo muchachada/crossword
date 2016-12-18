@@ -54,15 +54,37 @@ export class Board {
         })
     }
 
-    size() {
+    get size() {
         return {
             x: Math.max(...this.words.map(w => w.direction === 'H' ? w.posX + w.word.length - 1 : w.posX)) + 1,
             y: Math.max(...this.words.map(w => w.direction === 'V' ? w.posY + w.word.length - 1 : w.posY)) + 1
         }
     }
 
+    /*
+    Squareness of the crossword. Number between 0 and 1, being 1 perfectly
+    square and 0 infinitely disproportional.
+    */
+    get squareness () {
+      const size = this.size
+      return Math.min(size.x / size.y, size.y / size.x)
+    }
+
+    get fullness () {
+      const size = this.size
+      const cells = size.x * size.y
+      const letters = this.toArray().map((row) => {
+        return row.filter((cell) => cell !== '').length
+      }).reduce((a, b) => a + b, 0)
+      return letters / cells
+    }
+
+    get score () {
+      return (this.squareness + this.fullness) / 2
+    }
+
     toArray() {
-        let size = this.size()
+        let size = this.size
 
         // Create array
         let arr = []

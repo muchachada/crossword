@@ -32,21 +32,56 @@ export default class App extends Component {
     this.setState({
       words: [...this.state.words.slice(0, i), ...this.state.words.slice(i + 1)]
     })
-    console.log(this.state.words)
   }
 
+  componentDidUpdate () {
+    const board = document.querySelector('.' + styles.board)
+    const boardInner = document.querySelector('.' + styles.boardInner)
+    const boardHeight = board.clientHeight
+    const boardWidth = board.clientWidth
+    const boardInnerHeight = boardInner.clientHeight
+    const boardInnerWidth = boardInner.clientWidth
+    const verticalRatio = boardInnerHeight / boardHeight
+    const horizontalRatio = boardInnerWidth / boardWidth
+    const biggestRatio = Math.max(verticalRatio, horizontalRatio)
+    console.log(biggestRatio)
+    if (biggestRatio > 1) {
+        const scale = 1 / biggestRatio
+        let translate = 0
+        translate = Math.max(boardInnerHeight - boardHeight, 0)
+        console.log(translate)
+        boardInner.style.transform = `scale(${scale}) translateY(-${translate}px)`
+      }
+    }
+
   render() {
-    const b = Board.from_words(this.state.words)
-    const arr = b.toArray()
+    let board = Board.from_words(this.state.words)
+    for (var i = 0; i < 5; i++) {
+      let b = Board.from_words(this.state.words)
+      if (b.score > board.score) {
+        board = b
+      }
+    }
+    const arr = board.toArray()
     return (
       <div className={styles.wrapper}>
         <AppBar title='Crossword generator' />
         <div className={styles.content}>
           <div className={styles.controls}>
+            <h4>Words</h4>
             <Controls onChange={this.changeWords} words={this.state.words} onDelete={this.handleDelete} />
+            <h4>Debug data</h4>
+            <div>
+              <div><strong>Size:</strong> {board.size.x} × {board.size.y}</div>
+              <div><strong>Fullness:</strong> {board.fullness.toFixed(2)}</div>
+              <div><strong>Squareness:</strong> {board.squareness.toFixed(2)}</div>
+              <div><strong>Score:</strong> {board.score.toFixed(2)}</div>
+            </div>
           </div>
           <div className={styles.board}>
-            <BoardComponent arr={arr} />
+            <div className={styles.boardInner}>
+              <BoardComponent arr={arr} />
+            </div>
           </div>
         </div>
       </div>
