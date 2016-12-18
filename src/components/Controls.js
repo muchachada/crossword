@@ -2,6 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import Chip from 'react-toolbox/lib/chip'
 import { Button } from 'react-toolbox/lib/button'
+import EditableChip from './EditableChip'
 import Input from 'react-toolbox/lib/input'
 
 export default class Controls extends React.Component {
@@ -14,16 +15,16 @@ export default class Controls extends React.Component {
     }
   }
 
-  addWord (e) {
-    e.preventDefault()
+  addWord () {
     const word = this.state.input
     this.setState({input: ''})
     const { words, onChange } = this.props
     onChange(_.concat(words, word))
+    this.refs.editablechip.getFocus()
   }
 
-  changeInput (e) {
-    this.setState({input: e.target.value})
+  changeInput (v) {
+    this.setState({input: v})
   }
 
   render () {
@@ -32,9 +33,12 @@ export default class Controls extends React.Component {
       <div>
         <div>
           {words.map((w, i) => <Chip key={w} deletable onDeleteClick={() => onDelete(i)}>{w}</Chip>)}
-          <form onSubmit={this.addWord} style={{display: 'inline'}}>
-            <input type='text' style={{width: '3em'}} value={this.state.input} onChange={this.changeInput} ref='input' />
-          </form>
+          <EditableChip
+            ref='editablechip'
+            value={this.state.input}
+            onChange={this.changeInput}
+            onOK={this.addWord}
+          />
         </div>
       </div>
     )
